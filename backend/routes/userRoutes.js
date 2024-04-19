@@ -10,4 +10,10 @@ router.post('/users', userController.createUser);
 // GET all users
 router.get('/users', userController.getAllUsers);
 
+// PUT update user
+router.put('/users/:id', userController.updateUser);
+
+// DELETE a user
+router.delete('/users/:id', userController.deleteUser);
+
 module.exports = router;
