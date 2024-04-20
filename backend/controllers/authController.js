@@ -21,7 +21,7 @@ exports.redirect = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            return res.redirect('/protected');
+            return res.redirect('/check');
         });
     })(req, res, next);
 };

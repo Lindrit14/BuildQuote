@@ -1,16 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleCreateAngebot = () => {
-    history.push('/create-angebot');
+    navigate('/create-angebot');  // Use navigate for redirection
   };
 
   const handleCreateRechnung = () => {
-    history.push('/create-rechnung');
+    navigate('/create-rechnung');  // Use navigate for redirection
   };
 
   return (
