@@ -1,23 +1,18 @@
-
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import UserForm from './components/UserForm';
-import Login from "./components/Login"
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import Home from './components/Home';
 
 function App() {
-  const [data, setData] = useState('');
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/data')
-      .then(response => response.json())
-      .then(data => setData(data.message))
-      .catch(error => console.error('Error fetching data: ', error));
-  }, []);
-
   return (
-    
-    <Login></Login>
+    <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />  
+          <Route path="/" element={<Home />} />        
+        </Routes>
+    </Router>
   );
-} 
+}
 
 export default App;

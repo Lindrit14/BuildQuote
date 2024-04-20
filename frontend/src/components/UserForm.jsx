@@ -1,4 +1,5 @@
 // File: frontend/src/components/UserForm.jsx
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 
 function UserForm() {
