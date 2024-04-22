@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 const ProtectedRoute = ({ element: Element }) => {
     const { user } = useAuth();
     const location = useLocation();
+    console.log("Here is the log of the user in ProtectedRoute:", user)
 
     if (!user) {
         console.log("No user found, redirecting to login...");
@@ -16,7 +17,7 @@ const ProtectedRoute = ({ element: Element }) => {
     }
 
     console.log("User found, rendering element...");
-    return Element;  
+    return <Element />;
 };
 
 export default ProtectedRoute;

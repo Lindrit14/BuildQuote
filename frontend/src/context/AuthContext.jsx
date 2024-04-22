@@ -38,8 +38,14 @@ export const AuthProvider = ({ children }) => {
         verifyUser();
     }, []);
 
+    console.log("Here is the user from AuthContext: ",user)
+    console.log("here is useAuth():", useAuth())
+
     return (
         <AuthContext.Provider value={{ user, setUser }}>
+            {console.log("Here is the user from AuthContext: ",user)}
+            {console.log("here is useAuth():", useAuth())}
+
             {children}
         </AuthContext.Provider>
     );

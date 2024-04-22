@@ -13,7 +13,6 @@ const AngebotSchema = new mongoose.Schema({
     clientName: { type: String, required: true },
     clientAddress: String,
     clientEmail: String,
-    dateIssued: { type: Date, default: Date.now },
     offerNumber: { type: String, required: true, unique: true },
     projectLocation: String,
     items: [AngebotItemSchema],

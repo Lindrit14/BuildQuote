@@ -6,7 +6,7 @@ function Home() {
   const navigate = useNavigate();
 
   const handleCreateAngebot = () => {
-    navigate('/create-angebot');  // Use navigate for redirection
+    navigate('/createAngebot');  // Use navigate for redirection
   };
 
   const handleCreateRechnung = () => {

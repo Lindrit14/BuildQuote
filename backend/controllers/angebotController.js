@@ -1,12 +1,30 @@
+const Angebot = require('../models/angebot')
+
+// Controller to create an Angebot
 exports.createAngebot = async (req, res) => {
     try {
-        const newAngebot = new Angebot({ ...req.body, user: req.user._id });
+        const { clientName, clientAddress, clientEmail, offerNumber, projectLocation, items, netTotal, vat, grossTotal } = req.body;
+        const newAngebot = new Angebot({
+            clientName,
+            clientAddress,
+            clientEmail,
+            offerNumber,
+            projectLocation,
+            items,
+            netTotal,
+            vat,
+            grossTotal,
+            user: req.user._id 
+        });
         await newAngebot.save();
         res.status(201).json(newAngebot);
     } catch (error) {
-        res.status(400).json({ error: "Failed to create Angebot", details: error });
+        res.status(400).json({ message: error.message });
     }
 };
+
+
+
 
 exports.getAllAngeboteForUser = async (req, res) => {
     try {
@@ -15,4 +33,5 @@ exports.getAllAngeboteForUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve Angebote", details: error });
     }
+    
 };

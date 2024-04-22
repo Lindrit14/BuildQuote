@@ -1,10 +1,25 @@
+// Controller to create a Rechnung
 exports.createRechnung = async (req, res) => {
     try {
-        const newRechnung = new Rechnung({ ...req.body, user: req.user._id });
+        const { clientName, clientAddress, clientEmail, invoiceNumber, issueDate, dueDate, items, netTotal, vatRate, vatAmount, grossTotal } = req.body;
+        const newRechnung = new Rechnung({
+            clientName,
+            clientAddress,
+            clientEmail,
+            invoiceNumber,
+            issueDate,
+            dueDate,
+            items,
+            netTotal,
+            vatRate,
+            vatAmount,
+            grossTotal,
+            user: req.user._id
+        });
         await newRechnung.save();
         res.status(201).json(newRechnung);
     } catch (error) {
-        res.status(400).json({ error: "Failed to create Rechnung", details: error });
+        res.status(400).json({ message: error.message });
     }
 };
 

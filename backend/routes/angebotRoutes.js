@@ -3,9 +3,9 @@ const router = express.Router();
 const angebotController = require('../controllers/angebotController');
 
 // POST route to create a new Angebot
-router.post('/angebote', angebotController.createAngebot);
+router.post('/createAngebot', angebotController.createAngebot);
 
 // GET route to retrieve all Angebote for a user
-router.get('/angebote', angebotController.getAllAngeboteForUser);
+router.get('/getAngebote', angebotController.getAllAngeboteForUser);
 
 module.exports = router;

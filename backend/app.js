@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
+const angebotRoutes = require('./routes/angebotRoutes')
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 app.use('/api/',authMiddleware.isLoggedIn, userRoutes);
 app.use('/auth', authRoutes)
+app.use('/angebot', authMiddleware.isLoggedIn, angebotRoutes )
 
 app.get("/getCurrentUser", authMiddleware.isLoggedIn, (req, res) => {
     console.log("Session ID:", req.sessionID); // Log the session ID
