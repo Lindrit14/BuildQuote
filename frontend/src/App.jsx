@@ -4,22 +4,26 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Login from './components/Login';
 import Home from './components/Home';
+import CreateAngebot from './components/CreateAngebot';
+
 
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <AuthProvider>
       <Router>
+        {/* <AuthProvider> */}
         <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={
-            <ProtectedRoute element={<Home />} />
+            <Home />
           } />
-          <Route path="/login" element={<Login />} />
-          
+          <Route path="/CreateAngebot" element={
+            <CreateAngebot></CreateAngebot>
+          } />
         </Routes>
+        {/* </AuthProvider> */}
       </Router>
-    </AuthProvider>
   );
 }
 

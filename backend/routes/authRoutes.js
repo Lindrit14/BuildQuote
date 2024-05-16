@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');  // Ensure path is correct
+const authController = require('../controllers/authController');  
 
 // Google OAuth authentication routes
 router.get('/google', authController.login);

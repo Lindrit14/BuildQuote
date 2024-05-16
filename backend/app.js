@@ -43,6 +43,8 @@ app.use('/angebot', authMiddleware.isLoggedIn, angebotRoutes )
 app.get("/getCurrentUser", authMiddleware.isLoggedIn, (req, res) => {
     console.log("Session ID:", req.sessionID); // Log the session ID
     console.log("User session:", req.session); // Log the session object
+    console.log(req.user)
+    console.log(req.session.passport)
     if (req.user) {
         res.json(req.user);
     } else {
