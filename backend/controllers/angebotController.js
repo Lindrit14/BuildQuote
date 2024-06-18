@@ -23,9 +23,6 @@ exports.createAngebot = async (req, res) => {
     }
 };
 
-
-
-
 exports.getAllAngeboteForUser = async (req, res) => {
     try {
         const angebote = await Angebot.find({ user: req.user._id });

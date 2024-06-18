@@ -1,69 +1,69 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
-import PropTypes from 'prop-types';
 
-function Position({ item, index, handleChange, handleRemove }) {
-    return (
-        <div className="angebot-item">
-            <input
-                type="number"
-                name={`items[${index}].position`}
-                value={item.position}
-                onChange={handleChange}
-                placeholder="Position"
-            />
-            <input
-                type="number"
-                name={`items[${index}].quantity`}
-                value={item.quantity}
-                onChange={handleChange}
-                placeholder="Quantity"
-            />
-            <input
-                type="text"
-                name={`items[${index}].unit`}
-                value={item.unit}
-                onChange={handleChange}
-                placeholder="Unit"
-            />
-            <input
-                type="text"
-                name={`items[${index}].description`}
-                value={item.description}
-                onChange={handleChange}
-                placeholder="Description"
-            />
-            <input
-                type="number"
-                name={`items[${index}].unitPrice`}
-                value={item.unitPrice}
-                onChange={handleChange}
-                placeholder="Unit Price"
-            />
-            <input
-                type="number"
-                name={`items[${index}].total`}
-                value={item.total}
-                onChange={handleChange}
-                placeholder="Total"
-            />
-            <button type="button" onClick={() => handleRemove(index)}>Remove</button>
-        </div>
-    );
-}
+const Position = ({ item, index, handleItemChange, handleRemoveItem }) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedItem = { ...item, [name]: parseFloat(value) || value };
 
-Position.propTypes = {
-    item: PropTypes.shape({
-        position: PropTypes.number,
-        quantity: PropTypes.number,
-        unit: PropTypes.string,
-        description: PropTypes.string,
-        unitPrice: PropTypes.number,
-        total: PropTypes.number
-    }).isRequired,
-    index: PropTypes.number.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleRemove: PropTypes.func.isRequired
+    if (name === 'quantity' || name === 'unitPrice') {
+      updatedItem.total = updatedItem.quantity * updatedItem.unitPrice;
+    }
+
+    handleItemChange(index, updatedItem);
+  };
+
+  return (
+    <div className="flex flex-col justify-between mb-2">
+        <div className='w-full flex justify-between mb-2 '>
+
+        <input
+        type="number"
+        name="position"
+        value={item.position}
+        onChange={handleChange}
+        placeholder="Position"
+        className="input input-bordered w-1/12"
+      />
+            
+        <input
+        type="number"
+        name="quantity"
+        value={item.quantity}
+        onChange={handleChange}
+        placeholder="Quantity"
+        className="input input-bordered w-1/12"
+      />
+      <input
+        type="text"
+        name="unit"
+        value={item.unit}
+        onChange={handleChange}
+        placeholder="Unit"
+        className="input input-bordered w-1/12"
+      />
+      <input
+        type="text"
+        name="description"
+        value={item.description}
+        onChange={handleChange}
+        placeholder="Description"
+        className="input input-bordered w-1/2"
+      />
+      <input
+        type="number"
+        name="unitPrice"
+        value={item.unitPrice}
+        onChange={handleChange}
+        placeholder="Unit Price"
+        className="input input-bordered w-1/12"
+      />
+      <span className="w-1/12">€{item.total.toFixed(2)}</span></div>
+      
+      <button onClick={() => handleRemoveItem(index)} className="btn btn-danger">X</button>
+      <hr className="border-t-2 border-grey-300 my-4" />
+
+    </div>
+  );
 };
 
 export default Position;
