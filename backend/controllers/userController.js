@@ -1,7 +1,7 @@
 // File: backend/controllers/userController.js
 const User = require('../models/User');
-const Angebot = require('../models/angebot')
-        
+const Angebot = require('../models/angebot');
+
 exports.createUser = async (req, res) => {
     try {
         const user = new User(req.body);
@@ -11,7 +11,6 @@ exports.createUser = async (req, res) => {
         res.status(400).send(error);
     }
 };
-
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -49,12 +48,10 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-
-exports.getAngebotofUser = async(req,res) =>{
-    const {userid} = req.params;
+exports.getAngebotofUser = async (req, res) => {
+    const { userid } = req.params;
     const loggedInUserId = req.user._id.toString(); 
 
-    // Check if the logged-in user is requesting their own data or if they are an admin
     if (userid !== loggedInUserId && !req.user.isAdmin) {
         return res.status(403).json({ message: "Unauthorized access." });
     }

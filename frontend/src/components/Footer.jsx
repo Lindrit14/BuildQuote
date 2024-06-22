@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const Footer = ({ data }) => {
+const Footer = ({ data, updateTotals }) => {
+  useEffect(() => {
+    updateTotals();
+  }, [data.items, updateTotals]);
+
   return (
     <div className="mt-4">
       <div className="flex justify-end">

@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const Header = ({ data, type, handleChange }) => {
+const Header = ({ data, type, handleChange, generateUniqueOfferNumber }) => {
+  useEffect(() => {
+    if (!data.offerNumber) {
+      handleChange({ target: { name: 'offerNumber', value: generateUniqueOfferNumber() } });
+    }
+  }, [data.offerNumber, handleChange, generateUniqueOfferNumber]);
+
   return (
     <div className="mb-4">
       <div className="flex justify-between items-center mb-4">
@@ -60,7 +66,14 @@ const Header = ({ data, type, handleChange }) => {
           />
         </div>
         <div>
-          <p>{type === 'angebot' ? `Angebotsnr.: ${data.documentNumber}` : `Rechnungsnr.: ${data.documentNumber}`}</p>
+          <input
+            type="text"
+            name="offerNumber"
+            value={data.offerNumber}
+            onChange={handleChange}
+            placeholder="Offer Number"
+            className="input input-bordered w-full max-w-xs"
+          />
         </div>
       </div>
     </div>
