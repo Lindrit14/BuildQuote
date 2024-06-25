@@ -1,70 +1,48 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Leistungen from './Leistungen';
 import Footer from './Footer';
 import html2pdf from 'html2pdf.js';
 
-// eslint-disable-next-line react/prop-types
-function Document({ type }) {
-  const [documentData, setDocumentData] = useState({
-    clientName: '',
-    clientAddress: '',
-    clientEmail: '',
-    clientPhone: '',
-    offerNumber: '',
-    documentNumber: '',
-    projectLocation: '',
-    date: new Date().toLocaleDateString(),
-    items: [],
-    netTotal: 0,
-    vat: 0,
-    grossTotal: 0,
-    companyName: '',
-    companyAddress: '',
-    companyContact: '',
-    footerText: 'Die Verrechnung erfolgt nach tatsächlichem Aufwand...',
-  });
+function EditDocument() {
+  const location = useLocation();
+  const { doc, type } = location.state;
+  const [documentData, setDocumentData] = useState(doc);
   const documentRef = useRef(null);
 
-  // Retrieve form data from local storage on component mount
   useEffect(() => {
     const savedData = localStorage.getItem('documentData');
     if (savedData) {
       setDocumentData(JSON.parse(savedData));
-    } else {
-      const fetchUserData = async () => {
-        try {
-          const response = await fetch('http://localhost:5000/getCurrentUser', {
-            credentials: 'include',
-          });
-          if (!response.ok) {
-            throw new Error('Failed to fetch user data');
+    }else {
+        const fetchUserData = async () => {
+          try {
+            const response = await fetch('http://localhost:5000/getCurrentUser', {
+              credentials: 'include',
+            });
+            if (!response.ok) {
+              throw new Error('Failed to fetch user data');
+            }
+            const data = await response.json();
+            setDocumentData((prevState) => ({
+              ...prevState,
+              companyName: data.name,
+              companyAddress: data.address,
+              companyContact: data.email, 
+            }));
+          } catch (error) {
+            console.error('Error fetching user data:', error);
           }
-          const data = await response.json();
-          setDocumentData((prevState) => ({
-            ...prevState,
-            companyName: data.name,
-            companyAddress: data.address,
-            companyContact: data.email, // Assuming email as contact for simplicity
-          }));
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      };
+        };
+  
+        fetchUserData();
+      }
+    }, []);
 
-      fetchUserData();
-    }
-  }, []);
-
-  // Save form data to local storage on change
   useEffect(() => {
     localStorage.setItem('documentData', JSON.stringify(documentData));
   }, [documentData]);
-
-  const generateUniqueOfferNumber = () => {
-    return Date.now().toString();
-  };
 
   const updateTotals = useCallback(() => {
     const netTotal = documentData.items.reduce((acc, item) => acc + (item.quantity * item.unitPrice), 0);
@@ -114,8 +92,8 @@ function Document({ type }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/angebot/createAngebot', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:5000/angebot/updateAngebot/${doc._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -124,27 +102,25 @@ function Document({ type }) {
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create Angebot');
+        throw new Error(data.message || 'Failed to update document');
       }
-      alert(`${type === 'angebot' ? 'Angebot' : 'Rechnung'} has been saved successfully.`);
-      console.log('Angebot created:', data);
+      alert(`${type === 'angebot' ? 'Angebot' : 'Rechnung'} has been updated successfully.`);
+      console.log('Document updated:', data);
 
-      // Clear local storage after successful submission
       localStorage.removeItem('documentData');
 
-      // Generate and download PDF
       const element = documentRef.current;
       const opt = {
-        margin:       1,
-        filename:     `${type === 'angebot' ? 'Angebot' : 'Rechnung'}-${data.offerNumber}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        margin: 1,
+        filename: `${type === 'angebot' ? 'Angebot' : 'Rechnung'}-${data.offerNumber}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
       html2pdf().from(element).set(opt).save();
-      
+
     } catch (error) {
-      console.error('Error creating Angebot:', error);
+      console.error('Error updating document:', error);
     }
   };
 
@@ -155,7 +131,6 @@ function Document({ type }) {
           data={documentData}
           type={type}
           handleChange={handleChange}
-          generateUniqueOfferNumber={generateUniqueOfferNumber}
         />
         <Leistungen
           items={documentData.items}
@@ -172,4 +147,4 @@ function Document({ type }) {
   );
 }
 
-export default Document;
+export default EditDocument;

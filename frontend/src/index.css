@@ -15,6 +15,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+
 }
 
 a {
@@ -26,13 +28,7 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+
 
 h1 {
   font-size: 3.2em;
@@ -69,4 +65,19 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Add this CSS in your global stylesheet */
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    margin: 1in;
+  }
+}
+
+.page-break {
+  page-break-before: always;
 }

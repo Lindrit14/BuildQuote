@@ -4,7 +4,7 @@ import Document from './Document';
 
 function CreateAngebot() {
   return (
-    <div className="flex  justify-center w-full bg-teal-600"><Document type="angebot" /></div>
+    <div id='Angebot' className="flex  justify-center w-full bg-teal-600"><Document type="angebot" /></div>
   ) 
 }
 

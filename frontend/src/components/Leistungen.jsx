@@ -1,16 +1,18 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import Position from './Position';
 
+// eslint-disable-next-line react/prop-types
 const Leistungen = ({ items, handleAddItem, handleRemoveItem, handleItemChange }) => {
   return (
-    <div className="mb-4">
-      <div className="flex justify-between mb-2">
+    <div id='Leistungen' className="mb-4">
+      <div className="flex justify-between mb-4">
         <span>Pos.</span>
-        <span>Menge</span>
-        <span>Einh.</span>
-        <span>Beschreibung</span>
-        <span>Einh.Preis</span>
-        <span>Summe</span>
+        <span className='w-1/12'>Menge</span>
+        <span className='w-1/12'>Einh.</span>
+        <span className='w-1/2'>Beschreibung</span>
+        <span className='w-1/12'>Einh.Preis</span>
+        <span className='w-1/12'>Summe</span>
       </div>
       {items.map((item, index) => (
         <Position
@@ -21,7 +23,7 @@ const Leistungen = ({ items, handleAddItem, handleRemoveItem, handleItemChange }
           handleRemoveItem={handleRemoveItem}
         />
       ))}
-      <button onClick={handleAddItem} className="btn btn-primary mt-2">Add Item</button>
+      <button type="button" onClick={handleAddItem} className="btn btn-primary mt-2">Add Item</button>
     </div>
   );
 };

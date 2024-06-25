@@ -8,7 +8,7 @@ const Header = ({ data, type, handleChange, generateUniqueOfferNumber }) => {
   }, [data.offerNumber, handleChange, generateUniqueOfferNumber]);
 
   return (
-    <div className="mb-4">
+    <div id='Header' className="mb-4">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h1 className="text-3xl font-bold">{type === 'angebot' ? 'Angebot' : 'Rechnung'}</h1>

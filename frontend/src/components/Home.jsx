@@ -81,6 +81,10 @@ function Home() {
     }
   };
 
+  const handleDocumentClick = (doc) => {
+    navigate(`/editDocument/${doc._id}`, { state: { doc, type: doc.type } });
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
       <h1 className="text-3xl font-bold mb-6">Welcome to the Dashboard</h1>
@@ -148,7 +152,11 @@ function Home() {
         <h2 className="text-2xl font-semibold mb-4">Your Documents</h2>
         <div className="space-y-4">
           {documents.map((doc) => (
-            <div key={doc._id} className="p-4 border rounded-lg">
+            <div 
+              key={doc._id} 
+              className="p-4 border rounded-lg cursor-pointer" 
+              onClick={() => handleDocumentClick(doc)}
+            >
               <p><strong>Offer Number:</strong> {doc.offerNumber}</p>
               <p><strong>Client Name:</strong> {doc.clientName}</p>
               <p><strong>Project Location:</strong> {doc.projectLocation}</p>

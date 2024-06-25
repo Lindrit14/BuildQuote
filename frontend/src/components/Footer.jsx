@@ -6,7 +6,7 @@ const Footer = ({ data, updateTotals }) => {
   }, [data.items, updateTotals]);
 
   return (
-    <div className="mt-4">
+    <div id='Footer' className="mt-4">
       <div className="flex justify-end">
         <div className="w-1/3">
           <div className="flex justify-between">

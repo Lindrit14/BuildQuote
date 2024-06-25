@@ -4,7 +4,7 @@ import Document from './Document';
 
 function CreateRechnung() {
   return(
-    <div id='' className='flex justify-center w-full bg-teal-600'> <Document type="rechnung" /></div>
+    <div id='Rechnung' className='flex justify-center items-center  w-full h-screen '> <Document type="rechnung" /></div>
   )
    
   
