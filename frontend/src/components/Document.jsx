@@ -27,40 +27,29 @@ function Document({ type }) {
   });
   const documentRef = useRef(null);
 
-  // Retrieve form data from local storage on component mount
   useEffect(() => {
-    const savedData = localStorage.getItem('documentData');
-    if (savedData) {
-      setDocumentData(JSON.parse(savedData));
-    } else {
-      const fetchUserData = async () => {
-        try {
-          const response = await fetch('http://localhost:5000/getCurrentUser', {
-            credentials: 'include',
-          });
-          if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-          }
-          const data = await response.json();
-          setDocumentData((prevState) => ({
-            ...prevState,
-            companyName: data.name,
-            companyAddress: data.address,
-            companyContact: data.email, // Assuming email as contact for simplicity
-          }));
-        } catch (error) {
-          console.error('Error fetching user data:', error);
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/getCurrentUser', {
+          credentials: 'include',
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
         }
-      };
+        const data = await response.json();
+        setDocumentData((prevState) => ({
+          ...prevState,
+          companyName: data.name,
+          companyAddress: data.address,
+          companyContact: data.email, // Assuming email as contact for simplicity
+        }));
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
 
-      fetchUserData();
-    }
+    fetchUserData();
   }, []);
-
-  // Save form data to local storage on change
-  useEffect(() => {
-    localStorage.setItem('documentData', JSON.stringify(documentData));
-  }, [documentData]);
 
   const generateUniqueOfferNumber = () => {
     return Date.now().toString();
@@ -114,7 +103,7 @@ function Document({ type }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/angebot/createAngebot', {
+      const response = await fetch(`http://localhost:5000/angebot/createAngebot`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,11 +116,7 @@ function Document({ type }) {
         throw new Error(data.message || 'Failed to create Angebot');
       }
       alert(`${type === 'angebot' ? 'Angebot' : 'Rechnung'} has been saved successfully.`);
-      console.log('Angebot created:', data);
-
-      // Clear local storage after successful submission
-      localStorage.removeItem('documentData');
-
+      
       // Generate and download PDF
       const element = documentRef.current;
       const opt = {

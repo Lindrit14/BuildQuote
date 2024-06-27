@@ -1,3 +1,5 @@
+const Rechnung = require('../models/rechnung'); 
+
 // Controller to create a Rechnung
 exports.createRechnung = async (req, res) => {
     try {

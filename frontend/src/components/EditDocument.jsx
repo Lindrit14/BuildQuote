@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
@@ -15,30 +16,8 @@ function EditDocument() {
     const savedData = localStorage.getItem('documentData');
     if (savedData) {
       setDocumentData(JSON.parse(savedData));
-    }else {
-        const fetchUserData = async () => {
-          try {
-            const response = await fetch('http://localhost:5000/getCurrentUser', {
-              credentials: 'include',
-            });
-            if (!response.ok) {
-              throw new Error('Failed to fetch user data');
-            }
-            const data = await response.json();
-            setDocumentData((prevState) => ({
-              ...prevState,
-              companyName: data.name,
-              companyAddress: data.address,
-              companyContact: data.email, 
-            }));
-          } catch (error) {
-            console.error('Error fetching user data:', error);
-          }
-        };
-  
-        fetchUserData();
-      }
-    }, []);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('documentData', JSON.stringify(documentData));
@@ -92,7 +71,7 @@ function EditDocument() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/angebot/updateAngebot/${doc._id}`, {
+      const response = await fetch(`http://localhost:5000/angebot/${doc._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
