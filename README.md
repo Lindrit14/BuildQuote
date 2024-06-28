@@ -32,8 +32,8 @@ The Invoice Management System is a web application designed to help users create
 
 1. **Clone the repository**:
     ```bash
-    git clone <repository-url>
-    cd <repository-directory>
+    git clone [<repository-url>](https://github.com/Lindrit14/BuildQuote.git)
+    cd BuildQuote
     ```
 
 2. **Install backend dependencies**:
@@ -52,21 +52,25 @@ The Invoice Management System is a web application designed to help users create
 
     Create a `.env` file in the `backend` directory and add the following variables:
     ```env
-    PORT=5000
-    MONGODB_URI=<your-mongodb-uri>
-    SESSION_SECRET=<your-session-secret>
+   MONGO_URI="mongodb://0.0.0.0:27017"
+
+    GOOGLE_CLIENT_ID="936082278689-gsooc6l854vss9g61gombems16hbtuc9.apps.googleusercontent.com"
+
+    GOOGLE_CLIENT_SECRET="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"
+
+    SESSION_SECRET="9.WFw9uWqIwkMe]QegOIAfOsI{i)aaaaaaaaaaz"
     ```
 
 5. **Run the backend server**:
     ```bash
     cd backend
-    npm start
+    npm run dev
     ```
 
 6. **Run the frontend server**:
     ```bash
     cd ../frontend
-    npm start
+    npm run dev
     ```
 
 ## Usage
