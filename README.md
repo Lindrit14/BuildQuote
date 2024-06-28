@@ -54,11 +54,11 @@ The Invoice Management System is a web application designed to help users create
     ```env
    MONGO_URI="mongodb://0.0.0.0:27017"
 
-    GOOGLE_CLIENT_ID="936082278689-gsooc6l854vss9g61gombems16hbtuc9.apps.googleusercontent.com"
+    GOOGLE_CLIENT_ID=<>
 
-    GOOGLE_CLIENT_SECRET="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"
+    GOOGLE_CLIENT_SECRET=<>
 
-    SESSION_SECRET="9.WFw9uWqIwkMe]QegOIAfOsI{i)aaaaaaaaaaz"
+    SESSION_SECRET=<>
     ```
 
 5. **Run the backend server**:
@@ -110,13 +110,17 @@ The Invoice Management System is a web application designed to help users create
 │   ├── routes
 │   ├── .env
 │   └── app.js
+│   └── server.js
 ├── frontend
+│   ├── private
 │   ├── src
+│   │   ├── assets
 │   │   ├── components
 │   │   ├── context
-│   │   ├── pages
-│   │   ├── App.js
-│   │   └── index.js
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   └── index.css
+│   │   └── main.jsx
 │   └── public
 └── README.md
 ```
