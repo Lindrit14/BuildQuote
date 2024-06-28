@@ -2,7 +2,8 @@ Sure, here's a README for your project:
 
 ---
 
-# Invoice Management System
+# BuildQuote
+## Invoice Management System
 
 ## Overview
 
