@@ -1,8 +1,5 @@
-Sure, here's a README for your project:
-
----
-
-# Invoice Management System
+# BuildQuote
+## Invoice Management System
 
 ## Overview
 
@@ -35,8 +32,8 @@ The Invoice Management System is a web application designed to help users create
 
 1. **Clone the repository**:
     ```bash
-    git clone <repository-url>
-    cd <repository-directory>
+    git clone [<repository-url>](https://github.com/Lindrit14/BuildQuote.git)
+    cd BuildQuote
     ```
 
 2. **Install backend dependencies**:
@@ -55,21 +52,25 @@ The Invoice Management System is a web application designed to help users create
 
     Create a `.env` file in the `backend` directory and add the following variables:
     ```env
-    PORT=5000
-    MONGODB_URI=<your-mongodb-uri>
-    SESSION_SECRET=<your-session-secret>
+   MONGO_URI="mongodb://0.0.0.0:27017"
+
+    GOOGLE_CLIENT_ID=<>
+
+    GOOGLE_CLIENT_SECRET=<>
+
+    SESSION_SECRET=<>
     ```
 
 5. **Run the backend server**:
     ```bash
     cd backend
-    npm start
+    npm run dev
     ```
 
 6. **Run the frontend server**:
     ```bash
     cd ../frontend
-    npm start
+    npm run dev
     ```
 
 ## Usage
@@ -109,13 +110,17 @@ The Invoice Management System is a web application designed to help users create
 │   ├── routes
 │   ├── .env
 │   └── app.js
+│   └── server.js
 ├── frontend
+│   ├── private
 │   ├── src
+│   │   ├── assets
 │   │   ├── components
 │   │   ├── context
-│   │   ├── pages
-│   │   ├── App.js
-│   │   └── index.js
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   └── index.css
+│   │   └── main.jsx
 │   └── public
 └── README.md
 ```
@@ -127,3 +132,4 @@ The Invoice Management System is a web application designed to help users create
 3. Commit your changes (`git commit -m 'Add your feature'`)
 4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a pull request
+
