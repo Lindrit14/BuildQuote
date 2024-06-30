@@ -1,12 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Leistungen from './Leistungen';
 import Footer from './Footer';
-import html2pdf from 'html2pdf.js';
+import ProjectModal from './ProjectModal';
 
 // eslint-disable-next-line react/prop-types
 function Document({ type }) {
+  const navigate = useNavigate();
   const [documentData, setDocumentData] = useState({
     clientName: '',
     clientAddress: '',
@@ -16,6 +18,8 @@ function Document({ type }) {
     documentNumber: '',
     projectLocation: '',
     date: new Date().toLocaleDateString(),
+    dueDate: type === 'rechnung' ? '' : undefined,
+    invoiceNumber: type === 'rechnung' ? '' : undefined,
     items: [],
     netTotal: 0,
     vat: 0,
@@ -26,6 +30,8 @@ function Document({ type }) {
     footerText: 'Die Verrechnung erfolgt nach tatsächlichem Aufwand...',
   });
   const documentRef = useRef(null);
+  const [isSaved, setIsSaved] = useState(false);
+  const [showProjectModal, setShowProjectModal] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -100,10 +106,11 @@ function Document({ type }) {
     setDocumentData((prevState) => ({ ...prevState, items: newItems }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/angebot/createAngebot`, {
+      const endpoint = type === 'angebot' ? 'angebot/createAngebot' : 'rechnung/createRechnung';
+      const response = await fetch(`http://localhost:5000/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -113,29 +120,27 @@ function Document({ type }) {
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create Angebot');
+        throw new Error(data.message || `Failed to create ${type === 'angebot' ? 'Angebot' : 'Rechnung'}`);
       }
       alert(`${type === 'angebot' ? 'Angebot' : 'Rechnung'} has been saved successfully.`);
-      
-      // Generate and download PDF
-      const element = documentRef.current;
-      const opt = {
-        margin:       1,
-        filename:     `${type === 'angebot' ? 'Angebot' : 'Rechnung'}-${data.offerNumber}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-      };
-      html2pdf().from(element).set(opt).save();
-      
+      setIsSaved(true);
+      navigate('/staticDocument', { state: { documentData, type } });
     } catch (error) {
-      console.error('Error creating Angebot:', error);
+      console.error(`Error creating ${type === 'angebot' ? 'Angebot' : 'Rechnung'}:`, error);
     }
   };
 
-  return (
+  const handleNavigateBack = () => {
+    if (!isSaved) {
+      const confirmLeave = window.confirm("You have unsaved changes. Are you sure you want to leave?");
+      if (!confirmLeave) return;
+    }
+    navigate('/');
+  };
+return (
     <div className="p-12 bg-white rounded-xl shadow-md flex flex-col h-screen w-3/4">
-      <form className='flex flex-col h-full justify-around' onSubmit={handleSubmit} ref={documentRef}>
+      <button onClick={handleNavigateBack} className="btn btn-secondary mb-4">Back</button>
+      <form className='flex flex-col h-full justify-around' onSubmit={handleSave} ref={documentRef}>
         <Header
           data={documentData}
           type={type}
@@ -153,6 +158,19 @@ function Document({ type }) {
           Save {type === 'angebot' ? 'Angebot' : 'Rechnung'}
         </button>
       </form>
+      <button onClick={() => setShowProjectModal(true)} className="btn btn-secondary mt-4">
+        Add to Project
+      </button>
+      <ProjectModal
+        show={showProjectModal}
+        onClose={() => setShowProjectModal(false)}
+        onSave={() => {
+          setShowProjectModal(false);
+          alert('Document added to project successfully.');
+        }}
+        documentId={documentData._id}
+        documentType={type}
+      />
     </div>
   );
 }

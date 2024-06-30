@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const AngebotItemSchema = new mongoose.Schema({
     position: Number,
@@ -19,7 +20,11 @@ const AngebotSchema = new mongoose.Schema({
     netTotal: Number,
     vat: Number,
     grossTotal: Number,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    project: {
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
+      }
 });
 
 module.exports = mongoose.model('Angebot', AngebotSchema);

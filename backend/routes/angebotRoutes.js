@@ -9,9 +9,12 @@ router.post('/createAngebot', angebotController.createAngebot);
 router.get('/getAngebote', angebotController.getAllAngeboteForUser);
 
 // Route to convert Angebot to Rechnung
-router.post('/convertAngebotToRechnung/:id', angebotController.convertAngebotToRechnung);
+router.post('/convertToRechnung/:id', angebotController.convertAngebotToRechnung);
 
 // PUT route to update an existing Angebot
 router.put('/updateAngebot/:id', angebotController.updateAngebot);
+
+// DELETE route to delete an existing Angebot
+router.delete('/deleteAngebot/:id', angebotController.deleteAngebot);
 
 module.exports = router;

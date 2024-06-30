@@ -11,15 +11,15 @@ const Footer = ({ data, updateTotals }) => {
         <div className="w-1/3">
           <div className="flex justify-between">
             <span>Summe Netto:</span>
-            <span>€{data.netTotal.toFixed(2)}</span>
+            <span>€{data.netTotal ? data.netTotal.toFixed(2) : '0.00'}</span>
           </div>
           <div className="flex justify-between">
             <span>+20% MwSt.:</span>
-            <span>€{data.vat.toFixed(2)}</span>
+            <span>€{data.vat ? data.vat.toFixed(2) : '0.00'}</span>
           </div>
           <div className="flex justify-between font-bold">
             <span>Summe Brutto:</span>
-            <span>€{data.grossTotal.toFixed(2)}</span>
+            <span>€{data.grossTotal ? data.grossTotal.toFixed(2) : '0.00'}</span>
           </div>
         </div>
       </div>

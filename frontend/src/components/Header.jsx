@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 
 const Header = ({ data, type, handleChange, generateUniqueOfferNumber }) => {
   useEffect(() => {
-    if (!data.offerNumber) {
+    if (!data.offerNumber && type === 'angebot') {
       handleChange({ target: { name: 'offerNumber', value: generateUniqueOfferNumber() } });
     }
-  }, [data.offerNumber, handleChange, generateUniqueOfferNumber]);
+    if (!data.invoiceNumber && type === 'rechnung') {
+      handleChange({ target: { name: 'invoiceNumber', value: generateUniqueOfferNumber() } });
+    }
+  }, [data.offerNumber, data.invoiceNumber, handleChange, generateUniqueOfferNumber, type]);
 
   return (
     <div id='Header' className="mb-4">
@@ -66,14 +69,36 @@ const Header = ({ data, type, handleChange, generateUniqueOfferNumber }) => {
           />
         </div>
         <div>
-          <input
-            type="text"
-            name="offerNumber"
-            value={data.offerNumber}
-            onChange={handleChange}
-            placeholder="Offer Number"
-            className="input input-bordered w-full max-w-xs"
-          />
+          {type === 'rechnung' && (
+            <>
+              <input
+                type="text"
+                name="invoiceNumber"
+                value={data.invoiceNumber}
+                onChange={handleChange}
+                placeholder="Invoice Number"
+                className="input input-bordered w-full max-w-xs"
+              />
+              <input
+                type="date"
+                name="dueDate"
+                value={data.dueDate}
+                onChange={handleChange}
+                placeholder="Due Date"
+                className="input input-bordered w-full max-w-xs"
+              />
+            </>
+          )}
+          {type === 'angebot' && (
+            <input
+              type="text"
+              name="offerNumber"
+              value={data.offerNumber}
+              onChange={handleChange}
+              placeholder="Offer Number"
+              className="input input-bordered w-full max-w-xs"
+            />
+          )}
         </div>
       </div>
     </div>

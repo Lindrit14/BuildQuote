@@ -1,16 +1,49 @@
+// src/components/EditDocument.jsx
+
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Leistungen from './Leistungen';
 import Footer from './Footer';
-import html2pdf from 'html2pdf.js';
 
 function EditDocument() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { doc, type } = location.state;
-  const [documentData, setDocumentData] = useState(doc);
+  const [documentData, setDocumentData] = useState({
+    ...doc,
+    vat: doc.vat || 0,
+    companyName: '',
+    companyAddress: '',
+    companyContact: '',
+  });
   const documentRef = useRef(null);
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/getCurrentUser', {
+          credentials: 'include',
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+        const data = await response.json();
+        setDocumentData((prevState) => ({
+          ...prevState,
+          companyName: data.name,
+          companyAddress: data.address,
+          companyContact: data.email, // Assuming email as contact for simplicity
+        }));
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const savedData = localStorage.getItem('documentData');
@@ -68,10 +101,11 @@ function EditDocument() {
     setDocumentData((prevState) => ({ ...prevState, items: newItems }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/angebot/${doc._id}`, {
+      const endpoint = type === 'angebot' ? `angebot/updateAngebot/${doc._id}` : `rechnung/updateRechnung/${doc._id}`;
+      const response = await fetch(`http://localhost:5000/${endpoint}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -84,28 +118,30 @@ function EditDocument() {
         throw new Error(data.message || 'Failed to update document');
       }
       alert(`${type === 'angebot' ? 'Angebot' : 'Rechnung'} has been updated successfully.`);
+      setIsSaved(true);
       console.log('Document updated:', data);
 
       localStorage.removeItem('documentData');
 
-      const element = documentRef.current;
-      const opt = {
-        margin: 1,
-        filename: `${type === 'angebot' ? 'Angebot' : 'Rechnung'}-${data.offerNumber}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-      };
-      html2pdf().from(element).set(opt).save();
-
+      // Navigate to StaticDocument with document data
+      navigate('/staticDocument', { state: { documentData, type } });
     } catch (error) {
       console.error('Error updating document:', error);
     }
   };
 
+  const handleNavigateBack = () => {
+    if (!isSaved) {
+      const confirmLeave = window.confirm("You have unsaved changes. Are you sure you want to leave?");
+      if (!confirmLeave) return;
+    }
+    navigate('/');
+  };
+
   return (
     <div className="p-12 bg-white rounded-xl shadow-md flex flex-col h-screen w-3/4">
-      <form className='flex flex-col h-full justify-around' onSubmit={handleSubmit} ref={documentRef}>
+      <button onClick={handleNavigateBack} className="btn btn-secondary mb-4">Back</button>
+      <form className='flex flex-col h-full justify-around' onSubmit={handleSave} ref={documentRef}>
         <Header
           data={documentData}
           type={type}

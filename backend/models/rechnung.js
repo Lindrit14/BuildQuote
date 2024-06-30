@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const RechnungItemSchema = new mongoose.Schema({
     description: String,
@@ -19,7 +20,11 @@ const RechnungSchema = new mongoose.Schema({
     vatRate: Number,
     vatAmount: Number,
     grossTotal: Number,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    project: {
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
+      },
 });
 
 module.exports = mongoose.model('Rechnung', RechnungSchema);
