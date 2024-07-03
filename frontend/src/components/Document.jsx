@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Leistungen from './Leistungen';
 import Footer from './Footer';
-import ProjectModal from './ProjectModal';
+import ProjectModal from './DashboardComponents/ProjectModal';
 
 // eslint-disable-next-line react/prop-types
 function Document({ type }) {

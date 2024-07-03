@@ -7,7 +7,7 @@ router.get('/google', authController.login);
 
 router.get('/google/redirect', authController.redirect);
 
-router.get("/logout", authController.logout);
+router.post("/logout", authController.logout);
 
 router.get("/failure", authController.failure);
 

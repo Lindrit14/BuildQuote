@@ -10,6 +10,9 @@ const authMiddleware = require('./middleware/authMiddleware');
 const angebotRoutes = require('./routes/angebotRoutes');
 const rechnungRoutes = require('./routes/rechnungRoutes');
 const projectRoutes = require('./routes/projectRoutes');  
+const kundenRoutes = require('./routes/kundenRoutes');  
+const leistungRoutes = require('./routes/leistungenRoutes');  
+
 
 const app = express();
 
@@ -43,6 +46,8 @@ app.use('/auth', authRoutes)
 app.use('/angebot', authMiddleware.isLoggedIn, angebotRoutes )
 app.use('/rechnung', authMiddleware.isLoggedIn, rechnungRoutes);
 app.use('/project', authMiddleware.isLoggedIn, projectRoutes);  
+app.use('/kunden', kundenRoutes);
+app.use('/leistung', leistungRoutes);
 
 app.get("/getCurrentUser", authMiddleware.isLoggedIn, (req, res) => {
     console.log("Session ID:", req.sessionID); // Log the session ID
