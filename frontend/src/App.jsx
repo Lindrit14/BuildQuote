@@ -14,6 +14,7 @@ import StaticDocument from './components/StaticDocumentComponents/StaticDocument
 import Project from './components/Project';
 import CreateLeistung from './components/LeistungenComponents/CreateLeistung';
 import CreateKunde from './components/KundenComponents/CreateKunde';
+import DocumentWizard from './components/DocumentCreationComponents/DocumentWizard';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route path="/CreateRechnung" element={<ProtectedRoute component={CreateRechnung} />} />
           <Route path="/CreateKunde" element={<ProtectedRoute component={CreateKunde} />} />
           <Route path="/CreateLeistung" element={<ProtectedRoute component={CreateLeistung} />} />
-
+          <Route path="/documentWizard/:type" element={<ProtectedRoute component={DocumentWizard} />} />
 
           <Route path="/editDocument/:id" element={<ProtectedRoute component={EditDocument} />} />
           <Route path="/staticDocument" element={<ProtectedRoute component={StaticDocument} />} />
