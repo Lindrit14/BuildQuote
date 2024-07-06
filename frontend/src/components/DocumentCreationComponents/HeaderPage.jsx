@@ -1,46 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import SelectKundeModal from '../KundenComponents/SelectKundeModal';
 
-const HeaderPage = ({ data, handleChange, nextStep, generateUniqueOfferNumber }) => {
-  useEffect(() => {
-    if (!data.offerNumber) {
-      handleChange({
-        target: {
-          name: 'offerNumber',
-          value: generateUniqueOfferNumber(),
-        },
-      });
-    }
-    // Set the current date if not already set
-    if (!data.date) {
-      handleChange({
-        target: {
-          name: 'date',
-          value: new Date().toLocaleDateString(),
-        },
-      });
-    }
-  }, [data.offerNumber, data.date, generateUniqueOfferNumber, handleChange]);
+const HeaderPage = ({ data, handleChange, nextStep, generateUniqueOfferNumber, setDocumentData }) => {
+  const [showKundeModal, setShowKundeModal] = useState(false);
+
+  const setSelectedKunde = (kunde) => {
+    setDocumentData(prevState => ({
+      ...prevState,
+      clientName: kunde.name,
+      clientAddress: kunde.address,
+      clientEmail: kunde.email,
+      clientPhone: kunde.phoneNumber,
+    }));
+    setShowKundeModal(false);
+  };
 
   return (
     <div>
       <h2>Header Information</h2>
-      <input
-        type="text"
-        name="offerNumber"
-        value={data.offerNumber}
-        onChange={handleChange}
-        placeholder="Offer Number"
-        className="input input-bordered w-full mb-4"
-        disabled
-      />
-      <input
-        type="text"
-        name="projectLocation"
-        value={data.projectLocation}
-        onChange={handleChange}
-        placeholder="Project Location"
-        className="input input-bordered w-full mb-4"
-      />
+      <button onClick={() => setShowKundeModal(true)} className="btn btn-secondary mb-4">Select Kunde</button>
       <input
         type="text"
         name="clientName"
@@ -75,14 +53,31 @@ const HeaderPage = ({ data, handleChange, nextStep, generateUniqueOfferNumber })
       />
       <input
         type="text"
+        name="projectLocation"
+        value={data.projectLocation}
+        onChange={handleChange}
+        placeholder="Project Location"
+        className="input input-bordered w-full mb-4"
+      />
+      <input
+        type="text"
+        name="offerNumber"
+        value={data.offerNumber || generateUniqueOfferNumber()}
+        onChange={handleChange}
+        placeholder="Offer Number"
+        className="input input-bordered w-full mb-4"
+        readOnly
+      />
+      <input
+        type="text"
         name="date"
         value={data.date}
         onChange={handleChange}
         placeholder="Date"
         className="input input-bordered w-full mb-4"
-        disabled
       />
       <button onClick={nextStep} className="btn btn-primary">Next</button>
+      <SelectKundeModal show={showKundeModal} onClose={() => setShowKundeModal(false)} setSelectedKunde={setSelectedKunde} />
     </div>
   );
 };

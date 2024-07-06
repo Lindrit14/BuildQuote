@@ -100,18 +100,45 @@ function DocumentWizard() {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  switch (step) {
-    case 1:
-      return <HeaderPage data={documentData} handleChange={handleChange} nextStep={nextStep} generateUniqueOfferNumber={generateUniqueOfferNumber} />;
-    case 2:
-      return <LeistungenPage data={documentData} handleAddItem={handleAddItem} handleRemoveItem={handleRemoveItem} handleItemChange={handleItemChange} nextStep={nextStep} prevStep={prevStep} />;
-    case 3:
-      return <FooterPage data={documentData} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} updateTotals={updateTotals} />;
-    case 4:
-      return <OverviewPage data={documentData} prevStep={prevStep} handleSave={handleSave} />;
-    default:
-      return <HeaderPage data={documentData} handleChange={handleChange} nextStep={nextStep} generateUniqueOfferNumber={generateUniqueOfferNumber} />;
-  }
+  return (
+    <>
+      {step === 1 && (
+        <HeaderPage
+          data={documentData}
+          handleChange={handleChange}
+          nextStep={nextStep}
+          generateUniqueOfferNumber={generateUniqueOfferNumber}
+          setDocumentData={setDocumentData}
+        />
+      )}
+      {step === 2 && (
+        <LeistungenPage
+          data={documentData}
+          handleAddItem={handleAddItem}
+          handleRemoveItem={handleRemoveItem}
+          handleItemChange={handleItemChange}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      )}
+      {step === 3 && (
+        <FooterPage
+          data={documentData}
+          handleChange={handleChange}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          updateTotals={updateTotals}
+        />
+      )}
+      {step === 4 && (
+        <OverviewPage
+          data={documentData}
+          prevStep={prevStep}
+          handleSave={handleSave}
+        />
+      )}
+    </>
+  );
 }
 
 export default DocumentWizard;
