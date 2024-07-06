@@ -51,14 +51,6 @@ function Home() {
     fetchData();
   }, []);
 
-  const handleFirstCreateAngebot = () => {
-    navigate('/CreateAngebot');
-  };
-
-  const handleFirstCreateRechnung = () => {
-    navigate('/CreateAngebot');
-  };
-
   const handleCreateAngebot = () => {
     navigate('/documentWizard/angebot');
   };
@@ -134,49 +126,45 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <LogoutButton />
-      <h1 className="text-3xl font-bold mb-6">Welcome to the Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Create Document</h2>
-          <button onClick={handleFirstCreateAngebot} className="btn btn-primary w-full mb-4">
-            Create Angebot
-          </button>
-          <button onClick={handleFirstCreateRechnung} className="btn btn-secondary w-full mb-4">
-            Create Rechnung
-          </button>
-          <button onClick={handleCreateAngebot} className="btn btn-primary w-full mb-4">
-            Create Angebot
-          </button>
-          <button onClick={handleCreateRechnung} className="btn btn-secondary w-full mb-4">
-            Create Rechnung
-          </button>
-          <button onClick={handleCreateKunden} className="btn btn-secondary w-full mb-4">
-            Create Kunden
-          </button>
-          <button onClick={handleCreateLeistung} className="btn btn-secondary w-full">
-            Create Leistung
-          </button>
-        </div>
-        <UserInfo userData={userData} handleInputChange={handleInputChange} handleUserUpdate={handleUserUpdate} />
+    <div className="min-h-screen flex">
+      <div className="w-64 bg-base-200 h-screen p-4 shadow-lg">
+        <LogoutButton />
+        <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
+        <button onClick={handleCreateAngebot} className="btn btn-primary w-full mb-4">
+          Create Angebot
+        </button>
+        <button onClick={handleCreateRechnung} className="btn btn-secondary w-full mb-4">
+          Create Rechnung
+        </button>
+        <button onClick={handleCreateKunden} className="btn btn-secondary w-full mb-4">
+          Create Kunden
+        </button>
+        <button onClick={handleCreateLeistung} className="btn btn-secondary w-full mb-4">
+          Create Leistung
+        </button>
       </div>
-      <ProjectList projects={projects} handleCreateProject={handleCreateProject} handleViewProject={handleViewProject} />
-      <DocumentList
-        documents={angebote}
-        type="angebot"
-        handleDocumentClick={handleDocumentClick}
-        handleDeleteDocument={handleDeleteDocument}
-        handleConvertToRechnung={handleConvertToRechnung}
-        handleOpenProjectModal={handleOpenProjectModal}
-      />
-      <DocumentList
-        documents={rechnungen}
-        type="rechnung"
-        handleDocumentClick={handleDocumentClick}
-        handleDeleteDocument={handleDeleteDocument}
-        handleOpenProjectModal={handleOpenProjectModal}
-      />
+      <div className="flex-1 p-6 bg-gray-100">
+        <h1 className="text-3xl font-bold mb-6">Welcome to the Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <UserInfo userData={userData} handleInputChange={handleInputChange} handleUserUpdate={handleUserUpdate} />
+        </div>
+        <ProjectList projects={projects} handleCreateProject={handleCreateProject} handleViewProject={handleViewProject} />
+        <DocumentList
+          documents={angebote}
+          type="angebot"
+          handleDocumentClick={handleDocumentClick}
+          handleDeleteDocument={handleDeleteDocument}
+          handleConvertToRechnung={handleConvertToRechnung}
+          handleOpenProjectModal={handleOpenProjectModal}
+        />
+        <DocumentList
+          documents={rechnungen}
+          type="rechnung"
+          handleDocumentClick={handleDocumentClick}
+          handleDeleteDocument={handleDeleteDocument}
+          handleOpenProjectModal={handleOpenProjectModal}
+        />
+      </div>
       {currentDocument && (
         <ProjectModal
           show={showProjectModal}

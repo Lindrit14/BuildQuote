@@ -50,7 +50,10 @@ const HeaderPage = ({ data, handleChange, nextStep, generateUniqueOfferNumber, s
         onChange={handleChange}
         placeholder="Client Phone"
         className="input input-bordered w-full mb-4"
+
       />
+        <div className="divider divider-neutral"></div>
+
       <input
         type="text"
         name="projectLocation"
