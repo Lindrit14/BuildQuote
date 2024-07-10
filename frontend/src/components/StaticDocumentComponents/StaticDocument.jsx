@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import StaticHeader from './StaticHeader';
 import StaticLeistungen from './StaticLeistungen';
 import StaticFooter from './StaticFooter';
-import html2pdf from 'html2pdf.js';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 function StaticDocument() {
   const navigate = useNavigate();
@@ -12,15 +13,7 @@ function StaticDocument() {
   const documentRef = useRef(null);
 
   const handleGeneratePDF = () => {
-    const element = documentRef.current;
-    const opt = {
-      margin: 1,
-      filename: `${type === 'angebot' ? 'Angebot' : 'Rechnung'}-${documentData.offerNumber || documentData.invoiceNumber}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-    html2pdf().from(element).set(opt).save();
+    window.print()
   };
 
   const handleNavigateBack = () => {
@@ -28,11 +21,13 @@ function StaticDocument() {
   };
 
   return (
-    <div className="p-12 bg-white rounded-xl shadow-md flex flex-col h-screen w-3/4" ref={documentRef}>
+    <div className="p-12 bg-white rounded-xl shadow-md flex flex-col h-screen w-full" ref={documentRef}>
       <button onClick={handleNavigateBack} className="btn btn-secondary mb-4">Back</button>
-      <StaticHeader data={documentData} type={type} />
-      <StaticLeistungen items={documentData.items} />
-      <StaticFooter data={documentData} />
+      <div id="innerDocument">
+        <StaticHeader data={documentData} type={type} />
+        <StaticLeistungen items={documentData.items} />
+        <StaticFooter data={documentData} />
+      </div>
       <button onClick={handleGeneratePDF} className="btn btn-secondary mt-4">
         Generate PDF
       </button>

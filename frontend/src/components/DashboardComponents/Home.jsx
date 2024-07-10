@@ -51,6 +51,14 @@ function Home() {
     fetchData();
   }, []);
 
+  const handleCreateAngebotFirst = () => {
+    navigate('/CreateAngebot');
+  };
+
+  const handleCreateRechnungFirst = () => {
+    navigate('/CreateRechnung');
+  };
+
   const handleCreateAngebot = () => {
     navigate('/documentWizard/angebot');
   };
@@ -130,6 +138,14 @@ function Home() {
       <div className="w-64 bg-base-200 h-screen p-4 shadow-lg">
         <LogoutButton />
         <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
+
+        <button onClick={handleCreateAngebotFirst} className="btn btn-primary w-full mb-4">
+          Create Angebot
+        </button>
+        <button onClick={handleCreateRechnungFirst} className="btn btn-secondary w-full mb-4">
+          Create Rechnung
+        </button>
+
         <button onClick={handleCreateAngebot} className="btn btn-primary w-full mb-4">
           Create Angebot
         </button>
