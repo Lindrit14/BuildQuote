@@ -1,22 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-
 // eslint-disable-next-line react/prop-types
-const ProtectedRoute = ({ element: Element }) => {
-    const { user } = useAuth();
-    const location = useLocation();
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+    const { user, loading } = useAuth();
 
-    if (!user) {
-        console.log("No user found, redirecting to login...");
-        
-        return <Navigate to="/login" state={{ from: location }} replace />;
-    }
+    if (loading) return <div>Loading...</div>; 
 
-    console.log("User found, rendering element...");
-    return Element;  
+    return user ? <Component {...rest} /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

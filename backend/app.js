@@ -7,6 +7,12 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
+const angebotRoutes = require('./routes/angebotRoutes');
+const rechnungRoutes = require('./routes/rechnungRoutes');
+const projectRoutes = require('./routes/projectRoutes');  
+const kundenRoutes = require('./routes/kundenRoutes');  
+const leistungRoutes = require('./routes/leistungenRoutes');  
+
 
 const app = express();
 
@@ -27,8 +33,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false,  // Should be true in production with HTTPS
-        sameSite: 'lax'  // Can be 'strict' or 'lax' depending on your needs
+        secure: false,  
+        sameSite: 'lax'  
     }
 }));
 
@@ -37,10 +43,17 @@ app.use(passport.session());
 
 app.use('/api/',authMiddleware.isLoggedIn, userRoutes);
 app.use('/auth', authRoutes)
+app.use('/angebot', authMiddleware.isLoggedIn, angebotRoutes )
+app.use('/rechnung', authMiddleware.isLoggedIn, rechnungRoutes);
+app.use('/project', authMiddleware.isLoggedIn, projectRoutes);  
+app.use('/kunden', kundenRoutes);
+app.use('/leistung', leistungRoutes);
 
 app.get("/getCurrentUser", authMiddleware.isLoggedIn, (req, res) => {
     console.log("Session ID:", req.sessionID); // Log the session ID
     console.log("User session:", req.session); // Log the session object
+    console.log(req.user)
+    console.log(req.session.passport)
     if (req.user) {
         res.json(req.user);
     } else {
@@ -49,7 +62,7 @@ app.get("/getCurrentUser", authMiddleware.isLoggedIn, (req, res) => {
 });
 
 app.get("/check" ,authMiddleware.isLoggedIn,(req, res)=>{
-    console.log("Logged In with" + req.user) //happens 3 times for some reason?
+    console.log("Logged In with" + req.user) 
     res.redirect("http://localhost:5173/")    
 })
 

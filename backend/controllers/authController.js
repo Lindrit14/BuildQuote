@@ -26,13 +26,17 @@ exports.redirect = (req, res, next) => {
     })(req, res, next);
 };
 
+
 exports.logout = (req, res) => {
-    req.logout();
-    req.session.destroy(() => {
-        res.clearCookie('connect.sid');
-        res.send("Goodbye! You are now logged out.");
+    req.logout((err) => {
+      if (err) { return next(err); }
+      req.session.destroy(() => {
+        res.clearCookie('connect.sid', { path: '/' });
+        res.status(200).json({ message: 'Logout successful' });
+      });
     });
-};
+  };
+  
 
 exports.failure = (req, res) => {
     res.send("Something went wrong with the authorization/Logging In");

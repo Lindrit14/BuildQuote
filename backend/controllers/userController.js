@@ -1,6 +1,7 @@
 // File: backend/controllers/userController.js
 const User = require('../models/User');
-        
+const Angebot = require('../models/angebot');
+
 exports.createUser = async (req, res) => {
     try {
         const user = new User(req.body);
@@ -10,7 +11,6 @@ exports.createUser = async (req, res) => {
         res.status(400).send(error);
     }
 };
-
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -45,5 +45,21 @@ exports.deleteUser = async (req, res) => {
         res.status(200).send("User deleted successfully.");
     } catch (error) {
         res.status(400).send(error);
+    }
+};
+
+exports.getAngebotofUser = async (req, res) => {
+    const { userid } = req.params;
+    const loggedInUserId = req.user._id.toString(); 
+
+    if (userid !== loggedInUserId && !req.user.isAdmin) {
+        return res.status(403).json({ message: "Unauthorized access." });
+    }
+
+    try {
+        const angebote = await Angebot.find({ user: userid }).populate('user', 'name email');
+        res.status(200).json(angebote);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to retrieve Angebote", details: error.message });
     }
 };
