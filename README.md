@@ -124,4 +124,3 @@ The Invoice Management System is a web application designed to help users create
 │   └── public
 └── README.md
 ```
-
