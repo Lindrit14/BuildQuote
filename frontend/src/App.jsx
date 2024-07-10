@@ -1,6 +1,3 @@
-// src/App.js
-
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -14,11 +11,12 @@ import StaticDocument from './components/StaticDocumentComponents/StaticDocument
 import Project from './components/Project';
 import CreateLeistung from './components/LeistungenComponents/CreateLeistung';
 import CreateKunde from './components/KundenComponents/CreateKunde';
+import DocumentWizard from './components/DocumentCreationComponents/DocumentWizard';
 
 function App() {
   return (
     <Router>
-      <AuthProvider>
+      <AuthProvider>  
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<ProtectedRoute component={Home} />} />
@@ -26,12 +24,10 @@ function App() {
           <Route path="/CreateRechnung" element={<ProtectedRoute component={CreateRechnung} />} />
           <Route path="/CreateKunde" element={<ProtectedRoute component={CreateKunde} />} />
           <Route path="/CreateLeistung" element={<ProtectedRoute component={CreateLeistung} />} />
-
-
+          <Route path="/documentWizard/:type" element={<ProtectedRoute component={DocumentWizard} />} />
           <Route path="/editDocument/:id" element={<ProtectedRoute component={EditDocument} />} />
           <Route path="/staticDocument" element={<ProtectedRoute component={StaticDocument} />} />
           <Route path="/project/:projectId" element={<ProtectedRoute component={Project} />} />
-
           <Route path="/" element={<Navigate to="/home" />} />
         </Routes>
       </AuthProvider>

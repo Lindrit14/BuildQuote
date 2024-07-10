@@ -15,7 +15,7 @@ const Position = ({ item, index, handleItemChange, handleRemoveItem }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4  mb-2">
+    <div className="flex flex-col gap-4  mb-2 p-6">
       <div className='flex justify-between'><span>{item.position}</span>
       <input
         type="number"
@@ -33,14 +33,16 @@ const Position = ({ item, index, handleItemChange, handleRemoveItem }) => {
         placeholder="Unit"
         className="input input-bordered w-1/12"
       />
-      <input
-        type="text"
-        name="description"
-        value={item.description}
-        onChange={handleChange}
-        placeholder="Description"
-        className="input input-bordered w-1/2"
-      />
+        <textarea
+              name="description" 
+              placeholder="Description"
+              value={item.description}
+              onChange={handleChange}
+              className="input input-bordered w-1/2"
+            ></textarea>
+
+
+      
       <input
         type="number"
         name="unitPrice"
@@ -52,6 +54,7 @@ const Position = ({ item, index, handleItemChange, handleRemoveItem }) => {
       <span className="w-1/12">€{item.total.toFixed(2)}</span></div>
       
       <button onClick={() => handleRemoveItem(index)} className="btn btn-danger ">Remove</button>
+      <div className="divider divider-neutral"></div>
     </div>
   );
 };
